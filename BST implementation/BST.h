@@ -13,6 +13,8 @@ private:
         Node* insertion(Node*, int &);
         Node* remove(Node*, int &);
         Node* search(Node*, int &);
+        Node* Min(Node* node);
+        Node* Max(Node* node);
         void InOrderPrint(Node*);
         void LetFree(Node*);
     };
@@ -24,6 +26,7 @@ public:
     BST(): root(nullptr){}
     ~BST(){
         root->LetFree(root);
+        root = nullptr;
     }
     Node* getRoot(){
         return root;

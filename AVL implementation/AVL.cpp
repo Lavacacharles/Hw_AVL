@@ -19,9 +19,12 @@ AVL::Node* AVL::Node::insertion(Node* node, int& value) {
     } else {
         node->right = insertion(node->right, value);
     }
+    
+    node->height = 1 + max(Height(node->left), Height(node->right));
     node = Balance(node);
     return node;
 }
+
 
 AVL::Node* AVL::Node::remove(Node* node, int& value) {
     if (node == nullptr) {
@@ -52,6 +55,9 @@ AVL::Node* AVL::Node::remove(Node* node, int& value) {
         node->right = remove(node->right, temp->key);
         return node;
     }
+    node->height = 1 + max(Height(node->left), Height(node->right));
+    
+    return node;
 }
 
 AVL::Node* AVL::Node::search(Node* node, int& value) {
@@ -80,7 +86,6 @@ void AVL::Node::LetFree(Node* node) {
     }
     LetFree(node->left);
     LetFree(node->right);
-    delete node;
 }
 
 int AVL::Node::Height(Node* node) {
@@ -167,24 +172,29 @@ void AVL::InOrderWalk() {
 
 int main() {
     AVL tree;
+
+    // Caso de prueba 1: Inserción y recorrido en orden
     tree.insertion(10);
     tree.insertion(20);
     tree.insertion(30);
-    tree.insertion(40);
-    tree.insertion(50);
-    tree.insertion(25);
+    tree.insertion(15);
+    tree.insertion(5);
+
+    std::cout << "In Order Walk after insertions: ";
     tree.InOrderWalk();
-    tree.remove(30);
-    tree.InOrderWalk();
-    tree.remove(40);
-    tree.InOrderWalk();
-    tree.remove(50);
-    tree.InOrderWalk();
+    std::cout << std::endl;
+
+    // Caso de prueba 2: Eliminación y recorrido en orden
     tree.remove(20);
-    tree.InOrderWalk();
-    tree.remove(25);
-    tree.InOrderWalk();
     tree.remove(10);
+
+    std::cout << "In Order Walk after removals: ";
     tree.InOrderWalk();
+    std::cout << std::endl;
+
+    // Caso de prueba 3: Búsqueda
+    int searchValue = 15;
+    std::cout << "Search for " << searchValue << ": " << (tree.search(searchValue) ? "Found" : "Not Found") << std::endl;
+
     return 0;
 }

@@ -1,5 +1,20 @@
 #include "BST.h"
 
+
+BST::Node* BST::Node::Min(Node* node) {
+    if (node->left == nullptr) {
+        return node;
+    }
+    return Min(node->left);
+}
+
+BST::Node* BST::Node::Max(Node *node){
+    if (node->left == nullptr) {
+        return node;
+    }
+    return Min(node->right);
+}
+
 BST::Node* BST::Node::search(Node *node, int &value){
     if(node->key == value || node == nullptr){
         return node;
